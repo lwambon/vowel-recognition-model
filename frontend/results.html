@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kikuyu Vowel Prediction Model</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Add your CSS styles here */
+        .error-message {
+            color: red;
+        }
+        .loading-spinner {
+            display: none;
+        }
+        #prediction-result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Kikuyu Vowel Prediction Model</h1>
+    <form id="prediction-form">
+        <label for="input-data">Enter Speech Data:</label><br>
+        <textarea id="input-data" name="input-data" rows="4" cols="50"></textarea><br>
+        <span id="input-error" class="error-message"></span><br>
+        <button type="button" id="predict-button">Predict</button>
+    </form>
+    <div id="loading-spinner" class="loading-spinner">Loading...</div>
+    <div id="prediction-result"></div>
+
+    <script>
+document.getElementById('predict-button').addEventListener('click', function() {
+    var inputData = document.getElementById('input-data').value.trim();
+    var inputError = document.getElementById('input-error');
+    var predictionResult = document.getElementById('prediction-result');
+    var loadingSpinner = document.getElementById('loading-spinner');
+
+    // Validate input data format (add more specific validation if needed)
+    if (!isValidInputFormat(inputData)) {
+        inputError.textContent = 'Please enter valid speech data';
+        predictionResult.textContent = '';
+        return;
+    }
+
+    // Clear any previous error messages
+    inputError.textContent = '';
+
+    // Show loading spinner during prediction process
+    loadingSpinner.style.display = 'block';
+
+    // Proceed with the POST request
+    fetch('http://127.0.0.1:5000/predict', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ input_data: inputData })
+    })
+    .then(response => {
+        // Ensure the response is JSON if it exists
+        if (response.ok) {
+            return response.json();
+        } else {
+            // Hide loading spinner in case of error
+            loadingSpinner.style.display = 'none';
+            // Display error message
+            predictionResult.textContent = 'Error occurred during prediction';
+            console.error('Server responded with error:', response.status);
+            throw new Error('Server responded with error:', response.status);
+        }
+    })
+    .then(data => {
+        // Hide loading spinner after prediction
+        loadingSpinner.style.display = 'none';
+
+        // Display prediction result if data exists
+        if (data) {
+            predictionResult.textContent = 'Prediction Result: ' + data.predicted_class;
+            
+            // Display vowel information
+            if (data.vowel_count !== undefined && data.vowel_frequency !== undefined) {
+                predictionResult.textContent += '\nVowel Count: ' + data.vowel_count;
+                predictionResult.textContent += '\nVowel Frequency: ';
+                for (var vowel in data.vowel_frequency) {
+                    predictionResult.textContent += vowel + ': ' + data.vowel_frequency[vowel] + ', ';
+                }
+            }
+        } else {
+            console.error('No response data received');
+            predictionResult.textContent = 'Error occurred during prediction';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error.message);
+        // Display error message
+        predictionResult.textContent = 'Error occurred during prediction';
+    });
+});
+
+// Function to validate input data format (add more specific validation if needed)
+function isValidInputFormat(inputData) {
+    return inputData.length > 0; // For demonstration, check if input is not empty
+}
+
+    </script>
+</body>
+</html>

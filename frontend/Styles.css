@@ -1,0 +1,87 @@
+/* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #ADD8E6; /* Light grey background for a modern look */
+    color: #333; /* Dark grey text for readability */
+    line-height: 1.6;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #5d5d5d; /* Subtle dark text color */
+}
+
+form {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    font-size: 18px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    border: 1px solid #ddd; /* Light border for the textarea */
+    resize: vertical;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #5cb85c; /* Attractive green color */
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #4cae4c; /* Darker green on hover for interaction feedback */
+}
+
+.error-message {
+    color: #d9534f; /* Red color for error messages */
+}
+
+.loading-spinner {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#prediction-result {
+    background: #dff0d8; /* Light green background for results */
+    color: #3c763d; /* Dark green text for results */
+    padding: 10px;
+    margin-top: 20px;
+    border-radius: 4px;
+    border: 1px solid #d6e9c6;
+    margin-top: 20px;
+    max-width: 80%; /* or a specific pixel value like 600px */
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    background: #fff; /* Optional: Sets a white background */
+    border-radius: 4px; /* Optional: Rounds the corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Adds a subtle shadow */
+}
+
+
